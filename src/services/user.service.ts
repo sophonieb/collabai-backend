@@ -49,6 +49,23 @@ const findByEmail = async (
   });
 };
 
+const findByUsername = async (
+  username: Prisma.UserWhereUniqueInput["username"],
+  withPassword: boolean = false
+): Promise<UserResponse> => {
+  return await prisma.user.findUniqueOrThrow({
+    where: { username },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      password: withPassword,
+      email: true,
+      createdAt: true,
+    },
+  });
+};
+
 const update = async (
   id: Prisma.UserWhereUniqueInput["id"],
   data: Prisma.UserUpdateInput
@@ -71,4 +88,5 @@ export default {
   update,
   findById,
   findByEmail,
+  findByUsername,
 };
